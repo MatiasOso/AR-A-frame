@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+    <style>
+      /* Estilos para el botón */
+      #changeModelButton {
+        position: absolute;
+        top: 10px; /* Distancia desde el borde superior */
+        right: 10px; /* Distancia desde el borde derecho */
+        z-index: 9999; /* Asegura que esté por encima del canvas de A-Frame */
+      }
+    </style>
+  </head>
+
+  <body>
+    <a-scene embedded arjs>
+      <a-assets>
+        <a-asset-item id="muscles" src="/Muscles/scene.gltf"></a-asset-item>
+        <a-asset-item id="skeleton" src="/Skeleton/scene.gltf"></a-asset-item>
+      </a-assets>
+
+      <a-entity id="modelContainer">
+        <a-entity gltf-model="#skeleton" scale="0.1 0.1 0.1" rotate="0 90 0" crossOrigin="anonymous"></a-entity>
+      </a-entity>
+
+      <a-marker-camera preset='hiro'></a-marker-camera>
+    </a-scene>
+
+    <!-- Botón para cambiar el modelo -->
+    <button id="changeModelButton" onclick="changeModel()">Cambiar Modelo</button>
+
+    <script>
+      // Variable para el seguimiento del modelo actual
+      var currentModelId = '#skeleton';
+
+      // Función para cambiar entre los modelos
+      function changeModel() {
+        var modelContainer = document.getElementById('modelContainer');
+        var currentModel = modelContainer.querySelector('[gltf-model]');
+
+        // Verifica el modelo actual y cambia al otro modelo
+        if (currentModelId === '#muscles') {
+          currentModel.setAttribute('gltf-model', '#skeleton');
+          currentModelId = '#skeleton'; // Actualiza el modelo actual
+        } else {
+          currentModel.setAttribute('gltf-model', '#muscles');
+          currentModelId = '#muscles'; // Actualiza el modelo actual
+        }
+      }
+    </script>
+  </body>
+</html>
