@@ -1,0 +1,11 @@
+Model Information:
+* title:	Arm Musculature
+* source:	https://sketchfab.com/3d-models/arm-musculature-5ecca82de057413eb846d41e8d558b4f
+* author:	CUSM InfoCommons (https://sketchfab.com/CUSM)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Arm Musculature" (https://sketchfab.com/3d-models/arm-musculature-5ecca82de057413eb846d41e8d558b4f) by CUSM InfoCommons (https://sketchfab.com/CUSM) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

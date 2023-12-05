@@ -19,10 +19,11 @@
       <a-assets>
         <a-asset-item id="muscles" src="/Muscles/scene.gltf"></a-asset-item>
         <a-asset-item id="skeleton" src="/Skeleton/scene.gltf"></a-asset-item>
+        <a-asset-item id="arm" src="/Arm/scene.gltf"></a-asset-item>
       </a-assets>
 
       <a-entity id="modelContainer">
-        <a-entity gltf-model="#skeleton" scale="0.1 0.1 0.1" rotate="0 90 0" crossOrigin="anonymous"></a-entity>
+        <a-entity gltf-model="#skeleton" scale="0.1 0.1 0.1" rotate="0 70 0" crossOrigin="anonymous"></a-entity>
       </a-entity>
 
       <a-marker-camera preset='hiro'></a-marker-camera>
@@ -32,22 +33,31 @@
     <button id="changeModelButton" onclick="changeModel()">Cambiar Modelo</button>
 
     <script>
-      // Variable para el seguimiento del modelo actual
-      var currentModelId = '#skeleton';
+      // Array que contiene los IDs de los modelos disponibles
+      var modelIds = ['#skeleton', '#muscles', '#arm'];
+      var currentModelIndex = 0; // Índice del modelo actual
 
       // Función para cambiar entre los modelos
       function changeModel() {
         var modelContainer = document.getElementById('modelContainer');
         var currentModel = modelContainer.querySelector('[gltf-model]');
 
-        // Verifica el modelo actual y cambia al otro modelo
-        if (currentModelId === '#muscles') {
-          currentModel.setAttribute('gltf-model', '#skeleton');
-          currentModelId = '#skeleton'; // Actualiza el modelo actual
-        } else {
-          currentModel.setAttribute('gltf-model', '#muscles');
-          currentModelId = '#muscles'; // Actualiza el modelo actual
+        // Actualiza el índice al siguiente modelo o vuelve al inicio
+        currentModelIndex = (currentModelIndex + 1) % modelIds.length;
+
+        // Obtén el modelo actual y establece su escala según el ID
+        switch (modelIds[currentModelIndex]) {
+          case '#skeleton':
+          case '#muscles':
+            currentModel.setAttribute('scale', '0.1 0.1 0.1');
+            break;
+          case '#arm':
+            currentModel.setAttribute('scale', '0.1 0.1 0.1');
+            break;
         }
+
+        // Cambia al siguiente modelo en el array
+        currentModel.setAttribute('gltf-model', modelIds[currentModelIndex]);
       }
     </script>
   </body>
