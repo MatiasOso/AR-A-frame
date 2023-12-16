@@ -19,11 +19,14 @@
       <a-assets>
         <a-asset-item id="muscles" src="/Muscles/scene.gltf"></a-asset-item>
         <a-asset-item id="skeleton" src="/Skeleton/scene.gltf"></a-asset-item>
-        <a-asset-item id="arm" src="/Arm/scene.gltf"></a-asset-item>
       </a-assets>
 
       <a-entity id="modelContainer">
-        <a-entity gltf-model="#skeleton" scale="0.1 0.1 0.1" rotate="0 70 0" crossOrigin="anonymous"></a-entity>
+        <a-entity gltf-model="#skeleton" scale="0.1 0.1 0.1" rotate="0 0 0" crossOrigin="anonymous"></a-entity>
+      </a-entity>
+      
+      <a-entity id="modelInfo" visible="true">
+        <a-entity id="partLabels"></a-entity>
       </a-entity>
 
       <a-marker-camera preset='hiro'></a-marker-camera>
@@ -34,30 +37,61 @@
 
     <script>
       // Array que contiene los IDs de los modelos disponibles
-      var modelIds = ['#skeleton', '#muscles', '#arm'];
+      var modelIds = ['#skeleton', '#muscles'];
       var currentModelIndex = 0; // Índice del modelo actual
+      var firstModelChange = false; // Flag para el primer cambio de modelo
 
       // Función para cambiar entre los modelos
       function changeModel() {
         var modelContainer = document.getElementById('modelContainer');
         var currentModel = modelContainer.querySelector('[gltf-model]');
+        var partLabels = document.getElementById('partLabels');
+        var modelInfo = document.getElementById('modelInfo');
 
-        // Actualiza el índice al siguiente modelo o vuelve al inicio
-        currentModelIndex = (currentModelIndex + 1) % modelIds.length;
-
-        // Obtén el modelo actual y establece su escala según el ID
-        switch (modelIds[currentModelIndex]) {
-          case '#skeleton':
-          case '#muscles':
-            currentModel.setAttribute('scale', '0.1 0.1 0.1');
-            break;
-          case '#arm':
-            currentModel.setAttribute('scale', '0.1 0.1 0.1');
-            break;
+        // Si es el primer cambio de modelo, muestra las etiquetas del esqueleto
+        if (!firstModelChange) {
+          firstModelChange = true;
+          modelInfo.setAttribute('visible', 'true');
         }
 
-        // Cambia al siguiente modelo en el array
+        // Remueve etiquetas previas
+        partLabels.innerHTML = '';
+
+        // Cambia el modelo
+        currentModelIndex = (currentModelIndex + 1) % modelIds.length;
         currentModel.setAttribute('gltf-model', modelIds[currentModelIndex]);
+
+        // Configura las etiquetas de las partes según el modelo
+        switch (modelIds[currentModelIndex]) {
+          case '#skeleton':
+            createLabel(partLabels, 'Craneo', '0 3.1 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Humero', '0.3 2.65 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Radio y cubito', '0.4 2 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Costillas', '-0.5 2.5 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Pelvis', '-0.5 1.9 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Femur', '-0.5 1.3 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Tibia y perone', '-0.5 0.5 0.5'); // (izquierda, arriba, adelante)
+            // Agregar más etiquetas según las partes del esqueleto
+            break;
+          case '#muscles':
+            createLabel(partLabels, 'Pectoral', '-0.5 1.2 0.8'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Biceps', '0.5 0.8 0.8');      // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Antebrazo', '0.5 0.3 0.8'); // (izquierda, arriba, adelante
+            createLabel(partLabels, 'Cuadriceps', '0 -1 0.5'); // (izquierda, arriba, adelante
+            createLabel(partLabels, 'Hombro anterior', '-1.5 1.3 0.5'); // (izquierda, arriba, adelante)
+            createLabel(partLabels, 'Abdomen', '-0.5 0 0.8'); // (izquierda, arriba, adelante)
+            // Agregar más etiquetas según las partes de los músculos
+            break;
+        }
+      }
+
+      // Función para crear y posicionar etiquetas de texto
+      function createLabel(parent, textValue, position) {
+        var label = document.createElement('a-text');
+        label.setAttribute('value', textValue);
+        label.setAttribute('color', 'black');
+        label.setAttribute('position', position);
+        parent.appendChild(label);
       }
     </script>
   </body>
